@@ -1,0 +1,39 @@
+/* 自定义样式补充 */
+body {
+    scroll-behavior: smooth;
+}
+
+/* 进度条动画 */
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
+/* 卡片悬停效果 */
+.card-hover {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 按钮动画 */
+.btn-animate {
+    transition: all 0.2s ease;
+}
+
+.btn-animate:active {
+    transform: scale(0.98);
+}
+
+/* 加载动画 */
+.loader {
+    border-top-color: #3b82f6;
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
