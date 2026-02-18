@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>统计分析 - StudyPlanner Pro</title>
+    <title>Statistics - StudyPlanner Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -30,10 +30,10 @@
                 <h1 class="text-xl font-bold text-primary">StudyPlanner Pro</h1>
             </div>
             <div class="hidden md:flex space-x-6">
-                <a href="/" class="text-gray-700 hover:text-primary font-medium">首页</a>
-                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">课程管理</a>
-                <a href="/tasks" class="text-gray-700 hover:text-primary font-medium">任务管理</a>
-                <a href="/stats" class="text-primary font-medium">统计分析</a>
+                <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
+                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">Courses</a>
+                <a href="/tasks" class="text-gray-700 hover:text-primary font-medium">Tasks</a>
+                <a href="/stats" class="text-primary font-medium">Statistics</a>
             </div>
         </div>
     </nav>
@@ -41,81 +41,81 @@
     <main class="container mx-auto px-4 pt-24 pb-16">
         <div class="bg-white rounded-xl shadow-lg p-6">
             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <i class="fa-solid fa-chart-pie text-primary mr-2"></i>统计分析
+                <i class="fa-solid fa-chart-pie text-primary mr-2"></i>Statistics
             </h2>
             
             {% if courses or tasks %}
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">GPA 统计</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">GPA Statistics</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-primary">
-                        <p class="text-gray-600 text-sm">当前 GPA</p>
-                        <p class="text-3xl font-bold text-primary">{{ gpa_data.current }}</p>
-                        <p class="text-sm text-gray-500">已修学分: {{ gpa_data.total_credits }}</p>
+                        <p class="text-gray-600 text-sm">Current GPA</p>
+                        <p class="text-3xl font-bold text-primary">{{ gpa_data.current_gpa }}</p>
+                        <p class="text-sm text-gray-500">Completed Credits: {{ gpa_data.total_credits }}</p>
                     </div>
                     <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-warning">
-                        <p class="text-gray-600 text-sm">预测最终 GPA</p>
-                        <p class="text-3xl font-bold text-warning">{{ gpa_data.predicted }}</p>
-                        <p class="text-sm text-gray-500">假设未完成课程均为 B（3.0）</p>
+                        <p class="text-gray-600 text-sm">Predicted Final GPA</p>
+                        <p class="text-3xl font-bold text-warning">{{ gpa_data.predicted_gpa }}</p>
+                        <p class="text-sm text-gray-500">Remaining Credits: {{ gpa_data.remaining_credits }}</p>
                     </div>
                 </div>
                 
                 <div class="bg-gray-50 rounded-lg p-4">
-                    <h4 class="font-semibold text-gray-800 mb-3">添加课程成绩</h4>
+                    <h4 class="font-semibold text-gray-800 mb-3">Add Course Grade</h4>
                     <form action="/update_grade" method="POST" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">选择课程</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
                                 <select name="course_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
-                                    <option value="">请选择课程</option>
+                                    <option value="">Select a course</option>
                                     {% for course in courses %}
                                     <option value="{{ course.id }}" {% if grades.get(course.id|string) %}selected{% endif %}>
-                                        {{ course.name }} ({{ course.credits }}学分)
+                                        {{ course.name }} ({{ course.credits }} credits)
                                         {% if grades.get(course.id|string) %}
-                                        - 当前成绩: {{ grades.get(course.id|string) }}
+                                        - Current: {{ grades.get(course.id|string) }}
                                         {% endif %}
                                     </option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">当前成绩</label>
-                                <input type="text" name="grade" required placeholder="例如: A, B, C, D, F" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Current Grade</label>
+                                <input type="text" name="grade" required placeholder="e.g., A, B, C, D, F" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                             </div>
                         </div>
-                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">保存成绩</button>
+                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">Save Grade</button>
                     </form>
                 </div>
             </div>
 
             <div class="mb-8">
                 <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fa-solid fa-hourglass-half text-secondary mr-2"></i>学习时间统计
+                    <i class="fa-solid fa-hourglass-half text-secondary mr-2"></i>Study Time Statistics
                 </h3>
                 {% if time_stats.total_time > 0 %}
-                <p class="text-gray-600 mb-2">总学习时间: {{ time_stats.total_time }} 小时</p>
+                <p class="text-gray-600 mb-2">Total Study Time: {{ time_stats.total_time }} hours</p>
                 <div class="space-y-3">
                     {% for course, time in time_stats.course_time.items() %}
                     <div class="flex justify-between items-center">
                         <span class="text-gray-700">{{ course }}</span>
                         <div class="w-2/3 bg-gray-200 rounded-full h-2.5">
-                            <div class="bg-secondary h-2.5 rounded-full" data-time="{{ time }}" data-total="{{ time_stats.total_time }}"></div>
+                            <div class="bg-secondary h-2.5 rounded-full" style="width: {{ (time / time_stats.total_time * 100)|round(1) }}%"></div>
                         </div>
-                        <span class="text-primary font-medium ml-2">{{ time }} 小时</span>
+                        <span class="text-primary font-medium ml-2">{{ time }}h</span>
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
                 <div class="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
                     <i class="fa-solid fa-clock text-2xl mb-2"></i>
-                    <p>暂无学习时间统计，完成任务后即可显示！</p>
+                    <p>No study time data yet! Complete tasks to see statistics!</p>
                 </div>
                 {% endif %}
             </div>
 
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fa-solid fa-percentage text-primary mr-2"></i>课程任务完成率
+                    <i class="fa-solid fa-percentage text-primary mr-2"></i>Task Completion Rate
                 </h3>
                 {% if completion_stats %}
                 <div class="space-y-4">
@@ -126,27 +126,27 @@
                             <span class="text-primary font-medium">{{ stat.rate|round(1) }}%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-primary h-2 rounded-full" data-rate="{{ stat.rate }}"></div>
+                            <div class="bg-primary h-2 rounded-full" style="width: {{ stat.rate|round(1) }}%"></div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">{{ stat.completed }}/{{ stat.total }} 任务</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ stat.completed }}/{{ stat.total }} tasks</p>
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
                 <div class="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
                     <i class="fa-solid fa-tasks text-2xl mb-2"></i>
-                    <p>暂无任务完成率统计，添加并完成任务后即可显示！</p>
+                    <p>No task completion data yet! Add and complete tasks!</p>
                 </div>
                 {% endif %}
             </div>
             {% else %}
             <div class="text-center py-12 text-gray-500">
                 <i class="fa-solid fa-chart-line text-4xl mb-3"></i>
-                <p class="text-lg">暂无统计数据</p>
-                <p class="mt-2">添加课程和任务并完成后，即可查看详细学习统计！</p>
+                <p class="text-lg">No Statistics Available</p>
+                <p class="mt-2">Add courses and complete tasks to view detailed statistics!</p>
                 <div class="mt-4 flex justify-center gap-4">
-                    <a href="/courses" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90">添加课程</a>
-                    <a href="/tasks" class="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/90">添加任务</a>
+                    <a href="/courses" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90">Add Courses</a>
+                    <a href="/tasks" class="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/90">Add Tasks</a>
                 </div>
             </div>
             {% endif %}

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>今日学习运势 - StudyPlanner Pro</title>
+    <title>Daily Study Fortune - StudyPlanner Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -30,18 +30,18 @@
                 <h1 class="text-xl font-bold text-primary">StudyPlanner Pro</h1>
             </div>
             <div class="hidden md:flex space-x-6">
-                <a href="/" class="text-gray-700 hover:text-primary font-medium">首页</a>
-                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">课程管理</a>
-                <a href="/tasks" class="text-gray-700 hover:text-primary font-medium">任务管理</a>
-                <a href="/stats" class="text-gray-700 hover:text-primary font-medium">统计分析</a>
+                <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
+                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">Courses</a>
+                <a href="/tasks" class="text-gray-700 hover:text-primary font-medium">Tasks</a>
+                <a href="/stats" class="text-gray-700 hover:text-primary font-medium">Statistics</a>
                 {% if session.username %}
                 <div class="flex items-center space-x-2">
-                    <span class="text-gray-700">欢迎, {{ session.username }}</span>
-                    <a href="/logout" class="text-gray-700 hover:text-primary font-medium">登出</a>
+                    <span class="text-gray-700">Welcome, {{ session.username }}</span>
+                    <a href="/logout" class="text-gray-700 hover:text-primary font-medium">Logout</a>
                 </div>
                 {% else %}
-                <a href="/login" class="text-gray-700 hover:text-primary font-medium">登录</a>
-                <a href="/register" class="text-gray-700 hover:text-primary font-medium">注册</a>
+                <a href="/login" class="text-gray-700 hover:text-primary font-medium">Login</a>
+                <a href="/register" class="text-gray-700 hover:text-primary font-medium">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -51,44 +51,44 @@
         <div class="bg-gradient-to-r from-pink-100 to-pink-200 rounded-xl shadow-lg p-6">
             <h2 class="text-xl font-bold text-pink-800 mb-4 flex items-center">
                 <i class="fa-solid fa-star text-pink-500 mr-2"></i>
-                今日学习运势
+                Daily Study Fortune
             </h2>
             
             {% if session.username %}
             <div class="bg-white rounded-lg p-6 shadow">
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                     <div class="bg-pink-50 rounded-full p-6 flex items-center justify-center">
-                        <i class="fa-solid fa-horoscope text-pink-500 text-5xl"></i>
+                        <i class="fa-solid fa-star text-pink-500 text-5xl"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-pink-800">亲爱的 {{ session.username }}，{{ user.zodiac_sign }}的今日学习运势</h3>
-                        <p class="mt-2 text-gray-700">日期：{{ datetime.now().strftime('%Y年%m月%d日') }}</p>
-                        <p class="mt-2 text-gray-700">星座：{{ user.zodiac_sign }}</p>
+                        <h3 class="text-lg font-semibold text-pink-800">Dear {{ session.username }}, {{ user.zodiac_sign }}'s Daily Study Fortune</h3>
+                        <p class="mt-2 text-gray-700">Date: {{ datetime.now().strftime('%B %d, %Y') }}</p>
+                        <p class="mt-2 text-gray-700">Zodiac Sign: {{ user.zodiac_sign }}</p>
                     </div>
                 </div>
                 
                 <div class="mt-6 space-y-4">
                     <div class="bg-pink-50 rounded-lg p-4">
-                        <h4 class="font-medium text-pink-700 mb-2">运势概览</h4>
+                        <h4 class="font-medium text-pink-700 mb-2">Fortune Summary</h4>
                         <p class="text-gray-700">{{ daily_luck.summary }}</p>
                     </div>
                     
                     <div class="bg-white border border-pink-200 rounded-lg p-4">
-                        <h4 class="font-medium text-pink-700 mb-2">详细解析</h4>
+                        <h4 class="font-medium text-pink-700 mb-2">Detailed Analysis</h4>
                         <p class="text-gray-700">{{ daily_luck.details }}</p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">幸运颜色</h4>
+                            <h4 class="font-medium text-pink-700 mb-2">Lucky Color</h4>
                             <p class="text-gray-700">{{ daily_luck.color }}</p>
                         </div>
                         <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">幸运数字</h4>
+                            <h4 class="font-medium text-pink-700 mb-2">Lucky Number</h4>
                             <p class="text-gray-700">{{ daily_luck.number }}</p>
                         </div>
                         <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">学习建议</h4>
+                            <h4 class="font-medium text-pink-700 mb-2">Study Advice</h4>
                             <p class="text-gray-700">{{ daily_luck.advice }}</p>
                         </div>
                     </div>
@@ -96,21 +96,21 @@
                 
                 <div class="mt-6">
                     <a href="/" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors">
-                        返回首页
+                        Back to Home
                     </a>
                 </div>
             </div>
             {% else %}
             <div class="bg-white rounded-lg p-6 text-center">
                 <i class="fa-solid fa-lock text-pink-500 text-4xl mb-4"></i>
-                <h3 class="text-lg font-semibold text-pink-800 mb-2">请先登录查看你的专属学习运势</h3>
-                <p class="text-gray-700 mb-4">登录后，我们将根据你的星座为你提供个性化的每日学习建议</p>
+                <h3 class="text-lg font-semibold text-pink-800 mb-2">Please login to view your personalized study fortune</h3>
+                <p class="text-gray-700 mb-4">After logging in, we will provide personalized daily study suggestions based on your zodiac sign</p>
                 <div class="flex justify-center space-x-4">
                     <a href="/login" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors">
-                        登录
+                        Login
                     </a>
                     <a href="/register" class="bg-white text-pink-500 px-4 py-2 rounded border border-pink-500 hover:bg-pink-50 transition-colors">
-                        注册
+                        Register
                     </a>
                 </div>
             </div>

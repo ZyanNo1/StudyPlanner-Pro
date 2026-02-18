@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>任务管理 - StudyPlanner Pro</title>
+    <title>Task Manager - StudyPlanner Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -30,27 +30,31 @@
                 <h1 class="text-xl font-bold text-primary">StudyPlanner Pro</h1>
             </div>
             <div class="hidden md:flex space-x-6">
-                <a href="/" class="text-gray-700 hover:text-primary font-medium">首页</a>
-                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">课程管理</a>
-                <a href="/tasks" class="text-primary font-medium">任务管理</a>
-                <a href="/stats" class="text-gray-700 hover:text-primary font-medium">统计分析</a>
+                <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
+                <a href="/courses" class="text-gray-700 hover:text-primary font-medium">Courses</a>
+                <a href="/tasks" class="text-primary font-medium">Tasks</a>
+                <a href="/stats" class="text-gray-700 hover:text-primary font-medium">Statistics</a>
+            </div>
+        </div>
+        <div class="md:hidden">
+                <button class="text-gray-700 hover:text-primary"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 pt-24 pb-16">
         <div class="bg-white rounded-xl shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">任务管理</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Task Management</h2>
             
             {% if courses %}
             <form action="/add_task" method="POST" class="mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">任务名称 <span class="text-danger">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Task Name <span class="text-danger">*</span></label>
                         <input type="text" name="task_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">所属课程 <span class="text-danger">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Course <span class="text-danger">*</span></label>
                         <select name="course_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                             {% for course in courses %}
                             <option value="{{ course.id }}">{{ course.name }}</option>
@@ -58,47 +62,47 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">任务类型</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Task Type</label>
                         <select name="task_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
-                            <option value="作业">作业</option>
-                            <option value="实验">实验</option>
-                            <option value="项目">项目</option>
-                            <option value="考试复习">考试复习</option>
+                            <option value="Homework">Homework</option>
+                            <option value="Lab">Lab</option>
+                            <option value="Project">Project</option>
+                            <option value="Exam Review">Exam Review</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">截止日期 <span class="text-danger">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Due Date <span class="text-danger">*</span></label>
                         <input type="date" name="due_date" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">预计时间（小时）</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Estimated Hours</label>
                         <input type="number" min="0" name="estimated_time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">优先级（1-5，1最高）</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority (1-5, 1=highest)</label>
                         <input type="number" min="1" max="5" value="3" name="priority" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
                     </div>
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">描述（可选）</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
                     <textarea name="description" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"></textarea>
                 </div>
-                <button type="submit" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">添加任务</button>
+                <button type="submit" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">Add Task</button>
             </form>
             {% else %}
             <div class="bg-warning/10 rounded-lg p-4 mb-6">
                 <p class="flex items-center text-warning">
                     <i class="fa-solid fa-exclamation-circle mr-2"></i>
-                    请先前往「课程管理」添加课程，再创建任务！
+                    Please add courses first before creating tasks!
                 </p>
-                <a href="/courses" class="text-primary font-medium mt-2 inline-block">立即添加课程</a>
+                <a href="/courses" class="text-primary font-medium mt-2 inline-block">Add Course Now</a>
             </div>
             {% endif %}
 
             <div class="space-y-6">
                 {% if upcoming_tasks %}
                 <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                    <i class="fa-solid fa-clock-rotate-left text-warning mr-2"></i>近期截止
+                    <i class="fa-solid fa-clock-rotate-left text-warning mr-2"></i>Due Soon
                 </h3>
                 {% for task in upcoming_tasks %}
                 <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -108,8 +112,8 @@
                             <p class="text-sm text-gray-600">{{ task.course_name }} · {{ task.task_type }}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs font-medium">优先级: {{ task.priority }}</span>
-                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('确定要删除这个任务吗？');">
+                            <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs font-medium">Priority: {{ task.priority }}</span>
+                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 <button type="submit" class="text-danger hover:text-danger/80 transition-colors">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -117,16 +121,16 @@
                         </div>
                     </div>
                     <div class="mt-2 flex flex-wrap gap-2 text-sm">
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar mr-1"></i>截止: {{ task.due_date }}</span>
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>预计: {{ task.estimated_time or 0 }}小时</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar mr-1"></i>Due: {{ task.due_date }}</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>Est: {{ task.estimated_time or 0 }}h</span>
                         <div class="flex items-center countdown-{{ task.id }}" data-task-id="{{ task.id }}" data-due-date="{{ task.due_date }}">
                             <i class="fa-solid fa-hourglass-half mr-1"></i>
                             <span class="countdown-text"></span>
                         </div>
                     </div>
                     <form action="/complete_task/{{ task.id }}" method="POST" class="mt-3">
-                        <input type="number" min="0" name="actual_time" placeholder="实际耗时（小时）" required class="px-2 py-1 border border-gray-300 rounded text-sm mr-2 focus:outline-none focus:ring-1 focus:ring-primary">
-                        <button type="submit" class="bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 text-sm transition-colors">标记完成</button>
+                        <input type="number" min="0" name="actual_time" placeholder="Actual hours" required class="px-2 py-1 border border-gray-300 rounded text-sm mr-2 focus:outline-none focus:ring-1 focus:ring-primary">
+                        <button type="submit" class="bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 text-sm transition-colors">Mark Complete</button>
                     </form>
                 </div>
                 {% endfor %}
@@ -134,7 +138,7 @@
 
                 {% if later_tasks %}
                 <h3 class="text-lg font-semibold text-gray-800 flex items-center mt-6">
-                    <i class="fa-solid fa-calendar-days text-primary mr-2"></i>稍后
+                    <i class="fa-solid fa-calendar-days text-primary mr-2"></i>Later
                 </h3>
                 {% for task in later_tasks %}
                 <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -144,8 +148,8 @@
                             <p class="text-sm text-gray-600">{{ task.course_name }} · {{ task.task_type }}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium">优先级: {{ task.priority }}</span>
-                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('确定要删除这个任务吗？');">
+                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium">Priority: {{ task.priority }}</span>
+                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 <button type="submit" class="text-danger hover:text-danger/80 transition-colors">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -153,8 +157,8 @@
                         </div>
                     </div>
                     <div class="mt-2 flex flex-wrap gap-2 text-sm">
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar mr-1"></i>截止: {{ task.due_date }}</span>
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>预计: {{ task.estimated_time or 0 }}小时</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar mr-1"></i>Due: {{ task.due_date }}</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>Est: {{ task.estimated_time or 0 }}h</span>
                         <div class="flex items-center countdown-{{ task.id }}" data-task-id="{{ task.id }}" data-due-date="{{ task.due_date }}">
                             <i class="fa-solid fa-hourglass-half mr-1"></i>
                             <span class="countdown-text"></span>
@@ -166,7 +170,7 @@
 
                 {% if completed_tasks %}
                 <h3 class="text-lg font-semibold text-gray-800 flex items-center mt-6">
-                    <i class="fa-solid fa-check-double text-secondary mr-2"></i>已完成
+                    <i class="fa-solid fa-check-double text-secondary mr-2"></i>Completed
                 </h3>
                 {% for task in completed_tasks %}
                 <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 hover:shadow-md transition-shadow">
@@ -176,8 +180,8 @@
                             <p class="text-sm text-gray-600">{{ task.course_name }} · {{ task.task_type }}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <span class="bg-secondary/10 text-secondary px-2 py-1 rounded text-xs font-medium">已完成 ✅</span>
-                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('确定要删除这个任务吗？');">
+                            <span class="bg-secondary/10 text-secondary px-2 py-1 rounded text-xs font-medium">Completed ✅</span>
+                            <form action="/delete_task/{{ task.id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 <button type="submit" class="text-danger hover:text-danger/80 transition-colors">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -185,8 +189,8 @@
                         </div>
                     </div>
                     <div class="mt-2 flex flex-wrap gap-2 text-sm">
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>实际耗时: {{ task.actual_time or 0 }}小时</span>
-                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar-check mr-1"></i>截止: {{ task.due_date }}</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-clock mr-1"></i>Actual: {{ task.actual_time or 0 }}h</span>
+                        <span class="flex items-center text-gray-600"><i class="fa-solid fa-calendar-check mr-1"></i>Due: {{ task.due_date }}</span>
                     </div>
                 </div>
                 {% endfor %}
@@ -195,7 +199,7 @@
                 {% if not upcoming_tasks and not later_tasks and not completed_tasks and courses %}
                 <div class="text-center py-8 text-gray-500">
                     <i class="fa-solid fa-list-check text-4xl mb-2"></i>
-                    <p>暂无任务，点击上方添加新任务吧！</p>
+                    <p>No tasks yet. Add new tasks above!</p>
                 </div>
                 {% endif %}
             </div>
@@ -204,14 +208,12 @@
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script>
-        // 倒计时功能
         function updateCountdowns() {
-            // 查找所有倒计时元素
             const countdownElements = document.querySelectorAll('[data-due-date]');
             
             countdownElements.forEach(element => {
                 const dueDateStr = element.getAttribute('data-due-date');
-                const dueDate = new Date(dueDateStr + 'T23:59:59'); // 截止到当天23:59:59
+                const dueDate = new Date(dueDateStr + 'T23:59:59');
                 const now = new Date();
                 const diffMs = dueDate - now;
                 const diffSecs = Math.floor(diffMs / 1000);
@@ -219,22 +221,20 @@
                 const countdownText = element.querySelector('.countdown-text');
                 
                 if (diffSecs > 0) {
-                    // 计算剩余时间
                     const days = Math.floor(diffSecs / 86400);
                     const hours = Math.floor((diffSecs % 86400) / 3600);
                     const minutes = Math.floor((diffSecs % 3600) / 60);
                     const seconds = diffSecs % 60;
                     
                     let timeStr = '';
-                    if (days > 0) timeStr += `${days}天 `;
-                    if (hours > 0 || days > 0) timeStr += `${hours}时 `;
-                    if (minutes > 0 || hours > 0 || days > 0) timeStr += `${minutes}分 `;
-                    timeStr += `${seconds}秒`;
+                    if (days > 0) timeStr += `${days}d `;
+                    if (hours > 0 || days > 0) timeStr += `${hours}h `;
+                    if (minutes > 0 || hours > 0 || days > 0) timeStr += `${minutes}m `;
+                    timeStr += `${seconds}s`;
                     
-                    countdownText.textContent = `剩余: ${timeStr}`;
+                    countdownText.textContent = `Left: ${timeStr}`;
                     countdownText.className = 'countdown-text text-primary font-medium';
                 } else {
-                    // 已超时
                     const overdueSecs = Math.abs(diffSecs);
                     const days = Math.floor(overdueSecs / 86400);
                     const hours = Math.floor((overdueSecs % 86400) / 3600);
@@ -242,21 +242,18 @@
                     const seconds = overdueSecs % 60;
                     
                     let timeStr = '';
-                    if (days > 0) timeStr += `${days}天 `;
-                    if (hours > 0 || days > 0) timeStr += `${hours}时 `;
-                    if (minutes > 0 || hours > 0 || days > 0) timeStr += `${minutes}分 `;
-                    timeStr += `${seconds}秒`;
+                    if (days > 0) timeStr += `${days}d `;
+                    if (hours > 0 || days > 0) timeStr += `${hours}h `;
+                    if (minutes > 0 || hours > 0 || days > 0) timeStr += `${minutes}m `;
+                    timeStr += `${seconds}s`;
                     
-                    countdownText.textContent = `已超时: ${timeStr}`;
+                    countdownText.textContent = `Overdue: ${timeStr}`;
                     countdownText.className = 'countdown-text text-danger font-medium';
                 }
             });
         }
         
-        // 初始调用一次
         updateCountdowns();
-        
-        // 每秒钟更新一次
         setInterval(updateCountdowns, 1000);
     </script>
 </body>
