@@ -100,9 +100,24 @@
         </section>
 
         <section class="mb-8">
-            <div class="bg-gradient-to-r from-pink-100 to-pink-200 rounded-xl shadow-lg p-6">
-                <h2 class="text-xl font-bold text-pink-800 mb-4 flex items-center">
-                    <i class="fa-solid fa-star text-pink-500 mr-2"></i>
+            {% set color_map = {
+                'red': '#dc2626',
+                'green': '#16a34a',
+                'yellow': '#ca8a04',
+                'white': '#111827',
+                'gold': '#d97706',
+                'gray': '#4b5563',
+                'blue': '#2563eb',
+                'purple': '#7c3aed',
+                'orange': '#f97316',
+                'brown': '#92400e',
+                'lightblue': '#2563eb',
+                'pink': '#ec4899'
+            } %}
+            {% set luck_color = color_map.get((daily_luck.color|default('pink'))|lower|replace(' ', ''), '#ec4899') %}
+            <div class="rounded-xl shadow-lg p-6" style="background: linear-gradient(90deg, #ffffff, {{ luck_color }}22);">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center" style="color: {{ luck_color }};">
+                    <i class="fa-solid fa-star mr-2" style="color: {{ luck_color }};"></i>
                     Daily Study Fortune
                 </h2>
                 
@@ -112,7 +127,7 @@
                         <p class="text-pink-700 font-medium">Dear {{ session.username }}, how's your study fortune today?</p>
                         <p class="mt-2 text-gray-700">✨ {{ daily_luck.summary }}</p>
                     </div>
-                    <a href="/luck" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors">
+                    <a href="/luck" class="text-white px-4 py-2 rounded transition-colors" style="background-color: {{ luck_color }};">
                         View Details
                     </a>
                 </div>

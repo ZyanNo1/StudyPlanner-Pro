@@ -48,54 +48,69 @@
     </nav>
 
     <main class="container mx-auto px-4 pt-24 pb-16">
-        <div class="bg-gradient-to-r from-pink-100 to-pink-200 rounded-xl shadow-lg p-6">
-            <h2 class="text-xl font-bold text-pink-800 mb-4 flex items-center">
-                <i class="fa-solid fa-star text-pink-500 mr-2"></i>
+        {% set color_map = {
+            'red': '#dc2626',
+            'green': '#16a34a',
+            'yellow': '#ca8a04',
+            'white': '#111827',
+            'gold': '#d97706',
+            'gray': '#4b5563',
+            'blue': '#2563eb',
+            'purple': '#7c3aed',
+            'orange': '#f97316',
+            'brown': '#92400e',
+            'lightblue': '#2563eb',
+            'pink': '#ec4899'
+        } %}
+        {% set luck_color = color_map.get((daily_luck.color|default('pink'))|lower|replace(' ', ''), '#ec4899') %}
+        <div class="rounded-xl shadow-lg p-6" style="background: linear-gradient(90deg, #ffffff, {{ luck_color }}22);">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center" style="color: {{ luck_color }};">
+                <i class="fa-solid fa-star mr-2" style="color: {{ luck_color }};"></i>
                 Daily Study Fortune
             </h2>
             
             {% if session.username %}
             <div class="bg-white rounded-lg p-6 shadow">
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                    <div class="bg-pink-50 rounded-full p-6 flex items-center justify-center">
-                        <i class="fa-solid fa-star text-pink-500 text-5xl"></i>
+                    <div class="rounded-full p-6 flex items-center justify-center" style="border: 2px solid {{ luck_color }}; background-color: {{ luck_color }}1a;">
+                        <i class="fa-solid fa-star text-5xl" style="color: {{ luck_color }};"></i>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-pink-800">Dear {{ session.username }}, {{ user.zodiac_sign }}'s Daily Study Fortune</h3>
+                        <h3 class="text-lg font-semibold text-gray-800" style="color: {{ luck_color }};">Dear {{ session.username }}, {{ user.zodiac_sign }}'s Daily Study Fortune</h3>
                         <p class="mt-2 text-gray-700">Date: {{ datetime.now().strftime('%B %d, %Y') }}</p>
                         <p class="mt-2 text-gray-700">Zodiac Sign: {{ user.zodiac_sign }}</p>
                     </div>
                 </div>
                 
                 <div class="mt-6 space-y-4">
-                    <div class="bg-pink-50 rounded-lg p-4">
-                        <h4 class="font-medium text-pink-700 mb-2">Fortune Summary</h4>
+                    <div class="rounded-lg p-4" style="border: 1px solid {{ luck_color }}; background-color: {{ luck_color }}0f;">
+                        <h4 class="font-medium text-gray-800 mb-2" style="color: {{ luck_color }};">Fortune Summary</h4>
                         <p class="text-gray-700">{{ daily_luck.summary }}</p>
                     </div>
                     
-                    <div class="bg-white border border-pink-200 rounded-lg p-4">
-                        <h4 class="font-medium text-pink-700 mb-2">Detailed Analysis</h4>
+                    <div class="bg-white border border-pink-200 rounded-lg p-4" style="border-color: {{ luck_color }};">
+                        <h4 class="font-medium text-gray-800 mb-2" style="color: {{ luck_color }};">Detailed Analysis</h4>
                         <p class="text-gray-700">{{ daily_luck.details }}</p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">Lucky Color</h4>
+                        <div class="bg-white border border-pink-200 rounded-lg p-4" style="border-color: {{ luck_color }};">
+                            <h4 class="font-medium text-gray-800 mb-2" style="color: {{ luck_color }};">Lucky Color</h4>
                             <p class="text-gray-700">{{ daily_luck.color }}</p>
                         </div>
-                        <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">Lucky Number</h4>
+                        <div class="bg-white border border-pink-200 rounded-lg p-4" style="border-color: {{ luck_color }};">
+                            <h4 class="font-medium text-gray-800 mb-2" style="color: {{ luck_color }};">Lucky Number</h4>
                             <p class="text-gray-700">{{ daily_luck.number }}</p>
                         </div>
-                        <div class="bg-white border border-pink-200 rounded-lg p-4">
-                            <h4 class="font-medium text-pink-700 mb-2">Study Advice</h4>
+                        <div class="bg-white border border-pink-200 rounded-lg p-4" style="border-color: {{ luck_color }};">
+                            <h4 class="font-medium text-gray-800 mb-2" style="color: {{ luck_color }};">Study Advice</h4>
                             <p class="text-gray-700">{{ daily_luck.advice }}</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="mt-6">
-                    <a href="/" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors">
+                    <a href="/" class="text-white px-4 py-2 rounded transition-colors" style="background-color: {{ luck_color }};">
                         Back to Home
                     </a>
                 </div>
