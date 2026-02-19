@@ -160,7 +160,7 @@
                             </span>
                             <span class="flex items-center text-gray-600">
                                 <i class="fa-solid fa-clock mr-1"></i>
-                                Est: {{ task.estimated_time }}h
+                                Est: {{ task.estimated_time if task.estimated_time else '-' }}h
                             </span>
                             <div class="flex items-center countdown-{{ task.id }}" data-task-id="{{ task.id }}" data-due-date="{{ task.due_date }}">
                                 <i class="fa-solid fa-hourglass-half mr-1"></i>
@@ -168,9 +168,12 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <a href="/tasks" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors text-sm inline-block">
-                                Mark Complete
-                            </a>
+                            <form action="/complete_task/{{ task.id }}" method="POST" class="flex flex-wrap items-center gap-2">
+                                <input type="number" min="0" name="actual_time" placeholder="Actual hours" class="px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                                <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors text-sm inline-block">
+                                    Mark Complete
+                                </button>
+                            </form>
                         </div>
                     </div>
                     {% endfor %}

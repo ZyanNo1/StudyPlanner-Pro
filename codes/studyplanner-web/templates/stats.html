@@ -34,7 +34,16 @@
                 <a href="/courses" class="text-gray-700 hover:text-primary font-medium">Courses</a>
                 <a href="/tasks" class="text-gray-700 hover:text-primary font-medium">Tasks</a>
                 <a href="/stats" class="text-primary font-medium">Statistics</a>
-            </div>
+                            {% if session.username %}
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-700">Welcome, {{ session.username }}</span>
+                    <a href="/logout" class="text-gray-700 hover:text-primary font-medium">Logout</a>
+                </div>
+                {% else %}
+                <a href="/login" class="text-gray-700 hover:text-primary font-medium">Login</a>
+                <a href="/register" class="text-gray-700 hover:text-primary font-medium">Register</a>
+                {% endif %}
+</div>
         </div>
     </nav>
 

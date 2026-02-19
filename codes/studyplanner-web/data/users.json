@@ -1,0 +1,14 @@
+{
+  "frozen": {
+    "password": "123345",
+    "email": "1879709208@qq.com",
+    "birthday": "2004-01-13",
+    "zodiac_sign": "Pisces"
+  },
+  "f": {
+    "password": "scrypt:32768:8:1$QSpyCA299DvMzOSN$4edea568ebc47e6a2e75ae8ae3f4fa8ff3f9f7c2da5d71a301bce23d2fe7551875bbbcc6cb3792384be97928df9239aced10e13e64fb95356a7b0cb56c849639",
+    "email": "f@qq.com",
+    "birthday": "2026-02-19",
+    "zodiac_sign": "Pisces"
+  }
+}

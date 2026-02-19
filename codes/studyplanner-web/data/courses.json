@@ -1,0 +1,16 @@
+[
+  {
+    "id": 2,
+    "name": "python",
+    "professor": "alen",
+    "credits": 5,
+    "owner": "f"
+  },
+  {
+    "id": 3,
+    "name": "java",
+    "professor": "alen",
+    "credits": 5,
+    "owner": "f"
+  }
+]
