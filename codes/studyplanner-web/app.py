@@ -120,6 +120,20 @@ def get_user_grades(grades, username):
     return grades.get(username, {})
 
 
+def get_expected_grade(users, username):
+    if not isinstance(users, dict):
+        return EXPECTED_GRADE
+    user = users.get(username)
+    if not user:
+        return EXPECTED_GRADE
+    expected_grade = user.get('expected_grade')
+    if expected_grade:
+        return expected_grade
+    user['expected_grade'] = EXPECTED_GRADE
+    save_data(USERS_FILE, users)
+    return EXPECTED_GRADE
+
+
 def get_next_id(items):
     max_id = 0
     for item in items:
@@ -567,7 +581,8 @@ def register():
             'password': generate_password_hash(password),
             'email': email,
             'birthday': birthday,
-            'zodiac_sign': zodiac_sign
+            'zodiac_sign': zodiac_sign,
+            'expected_grade': EXPECTED_GRADE
         }
 
         # Save user data
@@ -658,6 +673,23 @@ def update_grade():
     return redirect(url_for('stats'))
 
 
+@app.route('/update_expected_grade', methods=['POST'])
+@login_required
+def update_expected_grade():
+    username = current_user()
+    data = request.form
+    expected_grade = (data.get('expected_grade') or '').strip().upper()
+
+    if expected_grade and expected_grade in GRADE_POINTS:
+        users = load_data(USERS_FILE)
+        user = users.get(username, {})
+        user['expected_grade'] = expected_grade
+        users[username] = user
+        save_data(USERS_FILE, users)
+
+    return redirect(url_for('stats'))
+
+
 # Statistics page
 @app.route('/stats')
 @login_required
@@ -666,9 +698,11 @@ def stats():
     courses = filter_by_owner(load_data(COURSES_FILE), username)
     tasks = filter_by_owner(load_data(TASKS_FILE), username)
     grades = get_user_grades(load_data(GRADES_FILE), username)
+    users = load_data(USERS_FILE)
+    expected_grade = get_expected_grade(users, username)
 
     # Calculate GPA
-    gpa_data = calculate_gpa(grades, courses)
+    gpa_data = calculate_gpa(grades, courses, expected_grade)
 
     # Study time statistics
     time_stats = get_time_statistics(tasks)
@@ -681,12 +715,32 @@ def stats():
                           tasks=tasks,
                           grades=grades,
                           gpa_data=gpa_data,
+                          expected_grade=expected_grade,
+                          grade_options=list(GRADE_POINTS.keys()),
                           time_stats=time_stats,
                           completion_stats=completion_stats)
 
 
 # GPA calculation function
-def calculate_gpa(grades, courses):
+GRADE_POINTS = {
+    'A': 4.0,
+    'A-': 3.67,
+    'B+': 3.33,
+    'B': 3.0,
+    'B-': 2.67,
+    'C+': 2.33,
+    'C': 2.0,
+    'C-': 1.67,
+    'D+': 1.33,
+    'D': 1.0,
+    'D-': 0.67,
+    'F': 0.0,
+}
+
+EXPECTED_GRADE = 'B+'
+
+
+def calculate_gpa(grades, courses, expected_grade=None):
     total_credits = 0
     total_grade_points = 0
 
@@ -694,8 +748,8 @@ def calculate_gpa(grades, courses):
         course = next((c for c in courses if str(c['id']) == course_id), None)
         if course and grade:
             credits = course['credits']
-            # Convert grade to grade points (A=4, B=3, C=2, D=1, F=0)
-            grade_point = {'A':4, 'B':3, 'C':2, 'D':1, 'F':0}.get(grade, 0)
+            grade = str(grade).strip().upper()
+            grade_point = GRADE_POINTS.get(grade, 0)
             total_credits += credits
             total_grade_points += credits * grade_point
 
@@ -703,7 +757,11 @@ def calculate_gpa(grades, courses):
 
     # Calculate predicted GPA
     remaining_credits = sum([c['credits'] for c in courses if str(c['id']) not in grades])
+    expected_key = expected_grade or EXPECTED_GRADE
+    expected_points = GRADE_POINTS.get(expected_key, GRADE_POINTS[EXPECTED_GRADE])
     predicted_gpa = current_gpa
+    if remaining_credits > 0:
+        predicted_gpa = (total_grade_points + (remaining_credits * expected_points)) / (total_credits + remaining_credits)
 
     return {
         "current_gpa": round(current_gpa, 2),

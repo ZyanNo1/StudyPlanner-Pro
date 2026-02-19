@@ -66,7 +66,23 @@
                         <p class="text-gray-600 text-sm">Predicted Final GPA</p>
                         <p class="text-3xl font-bold text-warning">{{ gpa_data.predicted_gpa }}</p>
                         <p class="text-sm text-gray-500">Remaining Credits: {{ gpa_data.remaining_credits }}</p>
+                        <p class="text-xs text-gray-500 mt-1">Assumes remaining courses at {{ expected_grade }}</p>
                     </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <h4 class="font-semibold text-gray-800 mb-3">Expected Grade for Remaining Courses</h4>
+                    <form action="/update_expected_grade" method="POST" class="flex flex-wrap items-end gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Select Expected Grade</label>
+                            <select name="expected_grade" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary">
+                                {% for grade in grade_options %}
+                                <option value="{{ grade }}" {% if grade == expected_grade %}selected{% endif %}>{{ grade }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">Update</button>
+                    </form>
                 </div>
                 
                 <div class="bg-gray-50 rounded-lg p-4">

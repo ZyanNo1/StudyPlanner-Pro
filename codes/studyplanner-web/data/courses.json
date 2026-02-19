@@ -12,5 +12,12 @@
     "professor": "alen",
     "credits": 5,
     "owner": "f"
+  },
+  {
+    "id": 4,
+    "owner": "f",
+    "name": "Algorithm and Complexity",
+    "professor": "Dr. Fraij",
+    "credits": 4
   }
 ]
