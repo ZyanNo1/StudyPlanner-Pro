@@ -116,6 +116,6 @@ Users can only view and modify their own data. Legacy data without an `owner` fi
 
 ## Team:
 
-- Zyan Li @[ZyanNo1]([ZyanNo1 (Zyan Li)](https://github.com/ZyanNo1))
+- Zyan Li @[ZyanNo1](https://github.com/ZyanNo1)
 - Shijun Tian @[frozen66-ai](https://github.com/frozen66-ai)
 - Qinyan Liu @[qinyanliu](https://github.com/qinyanliu)
